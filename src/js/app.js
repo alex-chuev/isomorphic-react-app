@@ -1,6 +1,8 @@
-var React = require('react');
 var ReactDOM = require('react-dom');
+var createBrowserHistory = require('history/lib/createBrowserHistory');
 
-var App = require('./components/App');
+var routes = require('./components/routes');
 
-ReactDOM.render(<App />, document.getElementById('app'));
+var history = createBrowserHistory();
+
+ReactDOM.render(routes(history), document.getElementById('app'));

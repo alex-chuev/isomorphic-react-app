@@ -1,22 +1,30 @@
 var express = require('express');
+
 var React = require('react');
-var ReactDOMServer = require('react-dom/server');
+var ReactRouter = require('react-router');
+var ReactDomServer = require('react-dom/server');
+var RoutingContext = require('react-router').RoutingContext;
 
-var App = require('./dist/js/components/App');
+var routes = require('./dist/js/components/routes');
 
-var app = express();
+var app = express()
+	.set('view engine', 'jade')
+	.use(express.static('dist'));
 
-app.set('view engine', 'jade');
-
-app.use(express.static('dist'));
-
-app.get('/', function (req, res) {
-	res.render('./index.jade', {
-		app: ReactDOMServer.renderToString(React.createElement(App))
+app.get('*', function(req, res) {
+	ReactRouter.match({
+		routes: routes(),
+		location: req.url
+	}, function(error, redirectLocation, renderProps) {
+		res.render('index.jade', {
+			app: ReactDomServer.renderToString(
+				React.createElement(RoutingContext, renderProps)
+			)
+		});
 	});
 });
 
-var server = app.listen(3000, function () {
+var server = app.listen(3000, function() {
 	var host = server.address().address;
 	var port = server.address().port;
 

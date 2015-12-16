@@ -1,16 +1,16 @@
 var React = require('react');
 
-var Header = require('./Header');
-var Content = require('./Content');
-var Footer = require('./Footer');
+var Menu = require('./Menu');
 
 var App = React.createClass({
 	render: function() {
 		return (
 			<div className="app">
-				<Header />
-				<Content />
-				<Footer />
+				<Menu />
+
+				<div className="content">
+					{this.props.children}
+				</div>
 			</div>
 		);
 	}
